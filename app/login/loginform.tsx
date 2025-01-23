@@ -2,6 +2,12 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+const router = useRouter();
+
+useEffect(() => {
+  router.prefetch("/chat");
+}, [router]);
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +17,7 @@ const LoginForm = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,7 +31,7 @@ const LoginForm = () => {
       setError("Please fill out all fields");
       return;
     }
-
+    setLoading(true); // Disable the button while loading
     try {
       setError("");
       setSuccess("");
@@ -36,19 +42,18 @@ const LoginForm = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error("Signup failed. Please try again.");
-      }
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error("Login failed. Please try again.");
+      }
 
       // Assuming the response contains a token
       if (data.token) {
         localStorage.setItem("token", data.token); // Store token in localStorage
         localStorage.setItem("currentuser", data.currentuser);
       }
-      setTimeout(() => {
-        router.push("/chat");
-      }, 2000);
+
+      router.push("/chat");
       setSuccess("Signup successful! You can now log in.");
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -56,6 +61,8 @@ const LoginForm = () => {
       } else {
         setError("An unknown error occurred. Please try again.");
       }
+    } finally {
+      setLoading(false); // Re-enable the button after the request finishes
     }
   };
 
@@ -82,9 +89,11 @@ const LoginForm = () => {
       <button
         type="submit"
         className="cursor-pointer text-black bg-white p-2 text-base rounded-lg hover:text-white hover:bg-gray-700 transition duration-300"
+        disabled={loading}
       >
-        Log in
+        {loading ? "Logging in..." : "Log in"}
       </button>
+
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
     </form>
