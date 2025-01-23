@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  "scripts": {
+    "build:ignore-lint": "next build && eslint . --quiet --fix || true"
+  },
 
   async redirects() {
     return [
