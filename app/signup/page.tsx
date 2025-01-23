@@ -1,7 +1,5 @@
 import React from "react";
 import SignupForm from "./signupform";
-import styles from "./signup.module.css";
-
 const SignupPage = () => {
   return (
     <div className="max-w-[400px] mx-auto text-center mt-32">

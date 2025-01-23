@@ -6,8 +6,6 @@ import User from '../../../models/User';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     function extractUsername(email: string): string | null {
-        // Define the allowed domains
-        const validDomains = ["gmail.com", "yahoo.com", "hotmail.com"];
         
         // Use a regular expression to match the email and extract the username
         const emailRegex = /^([a-zA-Z0-9._%+-]+)@(gmail\.com|yahoo\.com|hotmail\.com)$/;

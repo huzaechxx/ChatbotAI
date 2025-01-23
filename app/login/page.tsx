@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./signup.module.css";
 import LoginForm from "./loginform";
 
 const LoginPage = () => {

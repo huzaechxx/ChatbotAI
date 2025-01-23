@@ -16,9 +16,6 @@ const ChatApp = () => {
   const [hasSentMessage, setHasSentMessage] = useState(false);
   const router = useRouter();
 
-  const user =
-    typeof window !== "undefined" ? localStorage.getItem("user") : "";
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     console.log("User logged out");

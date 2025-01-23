@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import styles from "./signup.module.css";
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
@@ -51,8 +50,12 @@ const LoginForm = () => {
         router.push("/chat");
       }, 2000);
       setSuccess("Signup successful! You can now log in.");
-    } catch (err: any) {
-      setError(err.message || "An error occurred. Please try again.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "An error occurred. Please try again.");
+      } else {
+        setError("An unknown error occurred. Please try again.");
+      }
     }
   };
 

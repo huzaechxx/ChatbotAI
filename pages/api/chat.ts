@@ -1,9 +1,10 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import Chat from '../../models/chat';
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+import { GoogleGenerativeAI } from "@google/generative-ai";
 const key = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(key);
+//const key: string | undefined = process.env.GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(key as string);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

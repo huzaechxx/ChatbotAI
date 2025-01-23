@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import styles from "./signup.module.css";
 import { useRouter } from "next/navigation";
 
 const SignupForm = () => {
@@ -46,8 +45,12 @@ const SignupForm = () => {
           router.push("/login");
         }, 2000); // Delay to show the success message before redirecting
       }
-    } catch (err: any) {
-      setError(err.message || "An error occurred. Please try again.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "An error occurred. Please try again.");
+      } else {
+        setError("An unknown error occurred. Please try again.");
+      }
     }
   };
 
