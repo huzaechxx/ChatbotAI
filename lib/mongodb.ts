@@ -12,9 +12,11 @@ interface MongooseCache {
 }
 
 declare global {
-  // Add the mongoose cache to global
-  var mongoose: MongooseCache | undefined;
+ // eslint-disable-next-line no-var
+ var mongoose: MongooseCache | undefined;
 }
+
+//let mongoose: MongooseCache | undefined;
 
 // Cache the MongoDB connection to avoid reconnecting repeatedly
 let cached: MongooseCache = global.mongoose || { conn: null, promise: null };

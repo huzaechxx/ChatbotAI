@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 
@@ -14,6 +14,7 @@ const ChatApp = () => {
   const [messages, setMessages] = useState<Message[]>([]); // Explicitly type the state
   const [input, setInput] = useState("");
   const [hasSentMessage, setHasSentMessage] = useState(false);
+  const [currentUser, setCurrentUser] = useState<string | null>(null); // Store the current user safely
   const router = useRouter();
 
   const handleLogout = () => {
@@ -21,7 +22,12 @@ const ChatApp = () => {
     console.log("User logged out");
     router.push("/login");
   };
-  const current = localStorage.getItem("currentuser");
+
+  // Ensure `localStorage` is accessed only on the client side
+  useEffect(() => {
+    const user = localStorage.getItem("currentuser");
+    setCurrentUser(user);
+  }, []);
 
   const sendMessage = async () => {
     if (input.trim()) {
@@ -93,7 +99,7 @@ const ChatApp = () => {
               {!hasSentMessage && (
                 <div className="mt-10 flex text-center text-white">
                   <h2 className=" text-3xl text-center text-white">
-                    Hello {current}!
+                    Hello {currentUser}!
                   </h2>
                   <p className="ps-5 text-3xl text-center text-white">
                     How can I help you today?
