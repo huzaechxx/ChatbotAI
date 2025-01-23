@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 const router = useRouter();
 
-useEffect(() => {
-  router.prefetch("/chat");
-}, [router]);
-
 const LoginForm = () => {
+  useEffect(() => {
+    router.prefetch("/chat");
+  }, [router]);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
