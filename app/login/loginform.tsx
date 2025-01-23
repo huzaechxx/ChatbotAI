@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-const router = useRouter();
 
 const LoginForm = () => {
+  const router = useRouter();
   useEffect(() => {
     router.prefetch("/chat");
   }, [router]);
