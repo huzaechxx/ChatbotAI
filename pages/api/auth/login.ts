@@ -25,15 +25,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await connectToDatabase();
 
-    const user = await User.findOne({ email });
-    if (!user) {
+    const user = await User.findOne({ email }).select('email password');
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid credentials' });
-    }
-
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
+    }    
 
     const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET as string, {
       expiresIn: '1h',
