@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import axios from "axios";
 
 // Define the Message type
 interface Message {
@@ -42,16 +43,20 @@ const ChatApp = () => {
       setMessages(newMessages);
 
       try {
-        const res = await fetch("/api/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ prompt: input }),
-        });
+        const res = await axios.post(
+          "/api/chat",
+          { prompt: input },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            timeout: 15000, // 15 seconds timeout
+          }
+        );
 
-        const data = await res.json();
+        const data = res.data;
+
         const botResponse =
           data.generatedText || "Sorry, I couldn't get a response.";
 

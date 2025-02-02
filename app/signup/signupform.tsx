@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -31,13 +32,12 @@ const SignupForm = () => {
       setError("");
       setSuccess("");
 
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
+      const response = await axios.post("/api/auth/signup", formData, {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        timeout: 15000,
       });
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error("Signup failed. Please try again.hel");
       } else {
         setSuccess("Signup successful! You can now log in.");

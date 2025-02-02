@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+import axios from "axios";
 const LoginForm = () => {
   const router = useRouter();
   useEffect(() => {
@@ -36,14 +36,13 @@ const LoginForm = () => {
       setError("");
       setSuccess("");
 
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
+      const response = await axios.post("/api/auth/login", formData, {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        timeout: 15000,
       });
 
-      const data = await response.json();
-      if (!response.ok) {
+      const data = await response.data;
+      if (response.status !== 200) {
         throw new Error("Login failed. Please try again.");
       }
 
