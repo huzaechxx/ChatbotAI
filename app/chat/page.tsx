@@ -32,12 +32,12 @@ const ChatApp = () => {
 
   const sendMessage = async () => {
     if (input.trim()) {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
 
-      if (!token) {
-        router.push("/login");
-        return;
-      }
+      // if (!token) {
+      //   router.push("/login");
+      //   return;
+      // }
 
       const newMessages = [...messages, { sender: "user", text: input }];
       setMessages(newMessages);
@@ -49,7 +49,7 @@ const ChatApp = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              // Authorization: `Bearer ${token}`,
             },
             timeout: 15000, // 15 seconds timeout
           }
