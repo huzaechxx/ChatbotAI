@@ -58,7 +58,7 @@ const ChatApp = () => {
         const data = res.data;
 
         const botResponse =
-          data.generatedText || "Sorry, I couldn't get a response.";
+          data.generatedText || "Sorry, I failed to get a response.";
 
         setMessages((prevMessages) => [
           ...prevMessages,
